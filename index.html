@@ -21,75 +21,75 @@
 <body> 
     <canvas id="canvas"></canvas>  
     <script>
-		var analyserNode;    								//可視化音頻的節點
-		var freqByteData;								//節點數據
-		var soundArray = [];								//儲存所有矩形	
-		var canvas;
-		var stage;								
-		//==========================================================================================================
-		window.onresize = resizeCanvas;																 //偵聽canvas resize
-		resizeCanvas();																			 	 //一開始canvas resize
-		window.onload = function(){		 
-			SoundMp3("mp3/bensound-funnysong.mp3");
-			/*=======================================================================================================*/
-			canvas = document.getElementById('canvas');
-			stage = new createjs.Stage(canvas); 
-			/*=======================================================================================================*/
-			var bmp = new createjs.Bitmap("./images/bg-audio.jpg").set({scaleX: 1.2, scaleY: 1.2});	 //設定背景圖片
-			stage.addChild(bmp);																	 //圖片加入場景
-		}
-        //隨瀏覽器變動
-        function resizeCanvas(){
-            var canvas = document.getElementById('canvas');
-            canvas.setAttribute("width",window.innerWidth);
-            canvas.setAttribute("height",window.innerHeight);
-        }
-		//=================================================================================================================
-		//載入音樂函式
-		function SoundMp3(Mp3) {
-			createjs.Sound.alternateExtensions = ["mp3"];				//設定檔案格式
-			createjs.Sound.registerSound(Mp3, "sound");				//音樂路徑
-			createjs.Sound.on("fileload", loadHandler);				//音樂加載事件
-		}
-		//音樂載入完執行
-		function loadHandler(e) {
-			var instance = createjs.Sound.play("sound");				//撥放
-			instance.volume = 0.1;							//聲音大小0~1
-			/*========================================================================================================*/
-			var context = createjs.Sound.activePlugin.context;			//獲取聲音。
-			analyserNode = context.createAnalyser();				//抓取音頻節點
-			analyserNode.fftSize = 2048;						//多少頻譜(2的次方)
-			analyserNode.connect(context.destination); 				//連接到音頻節點，輸出音頻
-			/*========================================================================================================*/
-			var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;	//壓縮節點(降低了信號的最響亮的部分，當多個播放聲音防止失真)
-			dynamicsNode.disconnect();  						//指定斷開連接
-			dynamicsNode.connect(analyserNode);					//連接節點
-			/*========================================================================================================*/
-			freqByteData = new Uint8Array(analyserNode.frequencyBinCount);		//將音頻的每個節點數據丟入Uint8陣列
-			/*========================================================================================================*/
-			for (var i = 0; i < freqByteData.length; i++) {
-				var g = new createjs.Graphics();    				//新增一個繪圖物件
+	var analyserNode;    								//可視化音頻的節點
+	var freqByteData;								//節點數據
+	var soundArray = [];								//儲存所有矩形	
+	var canvas;
+	var stage;								
+	//==========================================================================================================
+	window.onresize = resizeCanvas;																 //偵聽canvas resize
+	resizeCanvas();																			 	 //一開始canvas resize
+	window.onload = function(){		 
+		SoundMp3("mp3/bensound-funnysong.mp3");
+		/*=======================================================================================================*/
+		canvas = document.getElementById('canvas');
+		stage = new createjs.Stage(canvas); 
+		/*=======================================================================================================*/
+		var bmp = new createjs.Bitmap("./images/bg-audio.jpg").set({scaleX: 1.2, scaleY: 1.2});	 //設定背景圖片
+		stage.addChild(bmp);																	 //圖片加入場景
+	}
+	//隨瀏覽器變動
+	function resizeCanvas(){
+		var canvas = document.getElementById('canvas');
+		canvas.setAttribute("width",window.innerWidth);
+		canvas.setAttribute("height",window.innerHeight);
+	}
+	//=================================================================================================================
+	//載入音樂函式
+	function SoundMp3(Mp3) {
+		createjs.Sound.alternateExtensions = ["mp3"];				//設定檔案格式
+		createjs.Sound.registerSound(Mp3, "sound");				//音樂路徑
+		createjs.Sound.on("fileload", loadHandler);				//音樂加載事件
+	}
+	//音樂載入完執行
+	function loadHandler(e) {
+		var instance = createjs.Sound.play("sound");				//撥放
+		instance.volume = 0.1;							//聲音大小0~1
+		/*========================================================================================================*/
+		var context = createjs.Sound.activePlugin.context;			//獲取聲音。
+		analyserNode = context.createAnalyser();				//抓取音頻節點
+		analyserNode.fftSize = 2048;						//多少頻譜(2的次方)
+		analyserNode.connect(context.destination); 				//連接到音頻節點，輸出音頻
+		/*========================================================================================================*/
+		var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;	//壓縮節點(降低了信號的最響亮的部分，當多個播放聲音防止失真)
+		dynamicsNode.disconnect();  						//指定斷開連接
+		dynamicsNode.connect(analyserNode);					//連接節點
+		/*========================================================================================================*/
+		freqByteData = new Uint8Array(analyserNode.frequencyBinCount);		//將音頻的每個節點數據丟入Uint8陣列
+		/*========================================================================================================*/
+		for (var i = 0; i < freqByteData.length; i++) {
+			var g = new createjs.Graphics();    				//新增一個繪圖物件
 
-	            g.beginFill("#fff");             						//定義背景顏色
-	            g.drawRect(0,-10,window.innerWidth/2048,20);          			//繪製矩形 drawRect (x,y,長,寬)
+			g.beginFill("#fff");             				//定義背景顏色
+			g.drawRect(0,-10,window.innerWidth/2048,20);          		//繪製矩形 drawRect (x,y,長,寬)
 
-	            var shape = new createjs.Shape(g);  					//將Graphics加入Shape
-	            stage.addChild(shape);              					//新增至舞台
-	            shape.x = 6 * i;								//定義x座標
-	            shape.y = window.innerHeight/2;						//定義y座標
-				soundArray.push(shape);						//將所有矩形丟進陣列
-			}
-            createjs.Ticker.setFPS(60);								//設定fps
-			createjs.Ticker.addEventListener("tick", handleTick);			//不斷更新
+			var shape = new createjs.Shape(g);  				//將Graphics加入Shape
+			stage.addChild(shape);              				//新增至舞台
+			shape.x = 6 * i;						//定義x座標
+			shape.y = window.innerHeight/2;					//定義y座標
+			soundArray.push(shape);						//將所有矩形丟進陣列
 		}
-		//Ticker 畫面不斷更新
-		function handleTick() {
-		    analyserNode.getByteFrequencyData(freqByteData);				//將當前的音頻資料複製到 Uint8Array
-			for (var i = 0; i < freqByteData.length; i++) {
-				soundArray[i].scaleY = freqByteData[i] /5 * -1;			//更改矩形大小
-			}
-	       	stage.update();                     						//更新畫面
+		createjs.Ticker.setFPS(60);								//設定fps
+		createjs.Ticker.addEventListener("tick", handleTick);			//不斷更新
+	}
+	//Ticker 畫面不斷更新
+	function handleTick() {
+		analyserNode.getByteFrequencyData(freqByteData);			//將當前的音頻資料複製到 Uint8Array
+		for (var i = 0; i < freqByteData.length; i++) {
+			soundArray[i].scaleY = freqByteData[i] /5 * -1;			//更改矩形大小
 		}
+		stage.update();                     					//更新畫面
+	}
     </script>
 </body>
 </html>
