@@ -27,8 +27,8 @@
 	var canvas;
 	var stage;								
 	//==========================================================================================================
-	window.onresize = resizeCanvas;																 //偵聽canvas resize
-	resizeCanvas();																			 	 //一開始canvas resize
+	window.onresize = resizeCanvas;						 	//偵聽canvas resize
+	resizeCanvas();								 	//一開始canvas resize
 	window.onload = function(){		 
 		SoundMp3("mp3/bensound-funnysong.mp3");
 		/*=======================================================================================================*/
@@ -36,7 +36,7 @@
 		stage = new createjs.Stage(canvas); 
 		/*=======================================================================================================*/
 		var bmp = new createjs.Bitmap("./images/bg-audio.jpg").set({scaleX: 1.2, scaleY: 1.2});	 //設定背景圖片
-		stage.addChild(bmp);																	 //圖片加入場景
+		stage.addChild(bmp);							//圖片加入場景
 	}
 	//隨瀏覽器變動
 	function resizeCanvas(){
@@ -61,7 +61,7 @@
 		analyserNode.fftSize = 2048;						//多少頻譜(2的次方)
 		analyserNode.connect(context.destination); 				//連接到音頻節點，輸出音頻
 		/*========================================================================================================*/
-		var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;	//壓縮節點(降低了信號的最響亮的部分，當多個播放聲音防止失真)
+		var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;	//壓縮節點(降低了節點最響亮的部分，防止播放聲音失真)
 		dynamicsNode.disconnect();  						//指定斷開連接
 		dynamicsNode.connect(analyserNode);					//連接節點
 		/*========================================================================================================*/
@@ -79,7 +79,7 @@
 			shape.y = window.innerHeight/2;					//定義y座標
 			soundArray.push(shape);						//將所有矩形丟進陣列
 		}
-		createjs.Ticker.setFPS(60);								//設定fps
+		createjs.Ticker.setFPS(60);						//設定fps
 		createjs.Ticker.addEventListener("tick", handleTick);			//不斷更新
 	}
 	//Ticker 畫面不斷更新
