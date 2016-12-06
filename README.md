@@ -24,7 +24,7 @@
     freqByteData = new Uint8Array(analyserNode.frequencyBinCount);  //將音頻的每個節點數據丟入Uint8陣列
 ```
 
-### 當更新畫面時
+### 當更新函式時
 ```javascript
     analyserNode.getByteFrequencyData(freqByteData);                //將當前的音頻資料複製到 Uint8Array
     console.log(freqByteData);                                      //輸出音頻節點
