@@ -1,6 +1,6 @@
-# 音樂頻譜網頁效果
+# Html5 Canvas音樂頻譜網頁效果
 
-1. 使用createjs來進行聲音的處理跟畫面的效果
+1. 使用createjs來進行聲音的處理跟Canvas畫面的效果
 2. Easekjs + Soundjs
 3. Soundjs 載入音樂，抓音頻
 4. Easekjs 繪製線條圖
