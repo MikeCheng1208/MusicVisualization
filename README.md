@@ -5,7 +5,7 @@
 3. Soundjs 載入音樂，抓音頻
 4. Easekjs 繪製線條圖
 
-### 範例 <>
+### 範例 <https://mikecheng1208.github.io/MusicVisualization/index.html>
 ### 獲取音頻
 ```javascript
     var analyserNode;                                               //可視化音頻的節點
